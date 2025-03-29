@@ -8,7 +8,7 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::deque<std::uint64_t> ar
 
     // bs x [y] = If (x = y) (Some sZero) None
     if (arg2.size() == 1) {
-        auto x = std::move(arg1);
+        auto x = arg1;
         auto y = arg2[0];
         std::optional<std::uint64_t> temp0;
         if (x == y) {
@@ -20,8 +20,8 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::deque<std::uint64_t> ar
     }
 
     // bs x ys = (let m = (length ys) div 2 in ...
-    auto x = std::move(arg1);
-    auto ys = std::move(arg2);
+    auto x = arg1;
+    auto ys = arg2;
     auto temp0 = ys.size() / 2;
     auto m = temp0;
     auto temp2 = ys;
@@ -29,15 +29,15 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::deque<std::uint64_t> ar
     auto y = temp1;
     std::optional<std::uint64_t> temp3;
     if (y == x) {
-        temp3 = std::make_optional<std::uint64_t>(std::move(m));
+        temp3 = std::make_optional<std::uint64_t>(m);
     } else {
         std::optional<std::uint64_t> temp4;
         if (y < x) {
             auto temp5 = ([&] {
                 auto temp6 = m + 1;
-                auto temp7 = std::move(ys);
+                auto temp7 = ys;
                 temp7.erase(temp7.begin(), std::next(temp7.begin(), temp6));
-                auto temp8 = bs(std::move(x), std::move(temp7));
+                auto temp8 = bs(x, temp7);
 
                 // Some n \<Rightarrow> Some (m + n + 1)
                 if (temp8.has_value()) {
@@ -50,17 +50,15 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::deque<std::uint64_t> ar
             })();
             temp4 = temp5;
         } else {
-            auto temp9 = std::move(m);
-            auto temp10 = std::move(ys);
+            auto temp9 = m;
+            auto temp10 = ys;
             temp10.erase(std::next(temp10.begin(), temp9), temp10.end());
-            temp4 = bs(std::move(x), std::move(temp10));
+            temp4 = bs(x, temp10);
         }
-        temp3 = std::move(temp4);
+        temp3 = temp4;
     }
     return temp3;
 }
-
-
 
 int main(int argc, char **argv) {
 
@@ -78,21 +76,20 @@ int main(int argc, char **argv) {
         // std::cout << i*5 << std::endl;
     }
     
-    clock_t time = 0;
+    clock_t time = clock();
     
     uint64_t i = 0;
     
     for (std::uint64_t x=0; x<5*len; x+=2){
         // std::cout << "once "<< x << std::endl;
-        std::deque<uint64_t> temp = array;
-        clock_t start = clock();
-        if( bs(x, std::move(temp)).has_value()){
+        if( bs(x, array).has_value()){
             i += 1;
             // std::cout << "once "<< i << std::endl;
         }
-        clock_t end = clock() - start;
-        time = time + end;
-    } 
+    }
+       
+    
+    time = clock() - time;  
       
     printf("Time: %fs, (idx checksum: %ld)\n",((double)time)/CLOCKS_PER_SEC,i);
     

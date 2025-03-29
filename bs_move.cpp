@@ -78,21 +78,20 @@ int main(int argc, char **argv) {
         // std::cout << i*5 << std::endl;
     }
     
-    clock_t time = 0;
+    clock_t time = clock();
     
     uint64_t i = 0;
     
     for (std::uint64_t x=0; x<5*len; x+=2){
         // std::cout << "once "<< x << std::endl;
-        std::deque<uint64_t> temp = array;
-        clock_t start = clock();
-        if( bs(x, std::move(temp)).has_value()){
+        if( bs(x, array).has_value()){
             i += 1;
             // std::cout << "once "<< i << std::endl;
         }
-        clock_t end = clock() - start;
-        time = time + end;
-    } 
+    }
+       
+    
+    time = clock() - time;  
       
     printf("Time: %fs, (idx checksum: %ld)\n",((double)time)/CLOCKS_PER_SEC,i);
     
