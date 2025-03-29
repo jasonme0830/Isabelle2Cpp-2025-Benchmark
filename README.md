@@ -7,15 +7,17 @@ which created by peter lammich.
 All the operations are displayed in the makefile.
 
 benchmark-Isabelle2Cpp
-    |--c_peter
+    |--bs
+
+        |--c_peter  (from peter lammich)
     
-    |--cpp
+        |--cpp
 
-    |--imp
+        |--imp  (from peter lammich)
 
-    |--sml
+        |--sml  (from peter lammich)
 
-    |--llvm
+        |--llvm  (from peter lammich) 
 
 
 This message is for second reclone code.
