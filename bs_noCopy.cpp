@@ -1,6 +1,6 @@
 #include "bs.h"
 
-std::optional<std::uint64_t> bs(std::uint64_t arg1, std::list<std::uint64_t> arg2) {
+std::optional<std::uint64_t> bs(std::uint64_t arg1, std::deque<std::uint64_t> arg2) {
     // bs x [] = None
     if (arg2.empty()) {
         return std::optional<std::uint64_t>();
@@ -9,7 +9,7 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::list<std::uint64_t> arg
     // bs x [y] = If (x = y) (Some sZero) None
     if (arg2.size() == 1) {
         auto x = std::move(arg1);
-        auto y = *std::next(arg2.begin(), 0);
+        auto y = arg2[0];
         std::optional<std::uint64_t> temp0;
         if (x == y) {
             temp0 = std::make_optional<std::uint64_t>(0);
@@ -25,7 +25,7 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::list<std::uint64_t> arg
     auto temp0 = ys.size() / 2;
     auto m = temp0;
     auto temp2 = ys;
-    auto temp1 = *std::next(temp2.begin(), m);
+    auto temp1 = temp2[m];
     auto y = temp1;
     std::optional<std::uint64_t> temp3;
     if (y == x) {
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     
     uint64_t len = strtol(argv[1],NULL,10);
   
-    std::list<std::uint64_t> array;
+    std::deque<std::uint64_t> array;
     
     for (std::uint64_t i=0; i<len; ++i) {
         array.push_back(i*5);
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
     
     for (std::uint64_t x=0; x<5*len; x+=2){
         // std::cout << "once "<< x << std::endl;
-        std::list<uint64_t> temp = array;
+        std::deque<uint64_t> temp = array;
         clock_t start = clock();
         if( bs(x, std::move(temp)).has_value()){
             i += 1;
