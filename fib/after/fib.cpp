@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
     struct timespec start, end;
     timespec_get(&start, TIME_UTC);
     
-    // 调用LLVM函数
+    // 调用C++函数
     int64_t result = fib(input);
     timespec_get(&end, TIME_UTC);
     double elapsed = (end.tv_sec - start.tv_sec) * 1e9 + (end.tv_nsec - start.tv_nsec);

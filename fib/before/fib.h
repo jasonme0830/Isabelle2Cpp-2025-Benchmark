@@ -4,7 +4,7 @@
 std::uint64_t fib(std::uint64_t arg1) {
     // fib 0 = 1
     if (arg1 == 0) {
-        return 1;
+        return 0;
     }
 
     // fib (Suc 0) = 1

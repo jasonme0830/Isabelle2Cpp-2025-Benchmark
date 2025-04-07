@@ -4,9 +4,9 @@
 
 std::uint64_t fib(const std::uint64_t &arg1) {
     auto impl = [&]() -> std::uint64_t {
-        // fib 0 = 1
+        // fib 0 = 0
         if (arg1 == 0) {
-            return 1;
+            return 0;
         }
 
         // fib (Suc 0) = 1
