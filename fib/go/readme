@@ -1,1 +1,3 @@
 go build main.go
+
+valgrind --tool=massif --stacks=yes ./main 15

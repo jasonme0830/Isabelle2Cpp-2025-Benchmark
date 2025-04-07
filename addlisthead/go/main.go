@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"go/exported/List"
-    "go/exported/AddListHead" // 导入模块中的包
+	. "isabelle/exported/List"
+    "isabelle/exported/AddListHead" // 导入模块中的包
 )
 
 // 
 func printHelper[a any](list Lista[a]) {
     switch v := list.(type) {
     case Nil[a]:
+        fmt.Printf("Nil\n")
         return // 空链表直接返回
     case Cons[a]:
         fmt.Printf("%v -> ", v.A)
@@ -20,7 +21,7 @@ func printHelper[a any](list Lista[a]) {
 }
 
 func main() {
-	xs := List.Nil[int]{};
+	xs := Nil[int]{};
 	newList := AddListHead.AddListHeada[int](9, xs)
 	printHelper(newList)
 }

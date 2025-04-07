@@ -1,3 +1,3 @@
-module go/exported
+module isabelle/exported
 
 go 1.18

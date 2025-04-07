@@ -1,7 +1,7 @@
 package AddListHead
 
 import (
-  "go/exported/List"
+  "isabelle/exported/List"
 )
 
 func AddListHeada[a any] (aa a, xs List.Lista[a]) List.Lista[a] {
