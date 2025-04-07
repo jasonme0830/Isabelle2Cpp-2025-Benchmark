@@ -26,6 +26,13 @@ benchmark-Isabelle2Cpp
 
         |--llvm  (copy from peter lammich) 
 
+    |--go
+        --go.mod
+        |--AddListHead
+            --exported.go
+        |--List
+            --exported.go
+        --main.go
 
 This message is for second reclone code.
 
