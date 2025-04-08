@@ -90,7 +90,7 @@ func main() {
 		temp := IntToNat(i)
 		newList = AddListHead.AddListHeada[Nata](temp, newList)
 	}
-	printHelper(newList)
+	// printHelper(newList)
 
 	//设置一个查找目标
 	target := IntToNat(tar)

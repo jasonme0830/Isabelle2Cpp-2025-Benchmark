@@ -1,4 +1,12 @@
-#include "bs.h"
+#include <cstdint>
+#include <cstdlib>
+#include <deque>
+#include <map>
+#include <optional>
+#include <iostream>
+#include <ctime>
+#include <list>
+
 
 std::optional<std::uint64_t> bs(std::uint64_t arg1, std::list<std::uint64_t> arg2) {
     // bs x [] = None
@@ -59,44 +67,3 @@ std::optional<std::uint64_t> bs(std::uint64_t arg1, std::list<std::uint64_t> arg
     }
     return temp3;
 }
-
-
-
-int main(int argc, char **argv) {
-
-    if (argc != 2) {
-        std::cout << "usage: bs <size>\n"; 
-        exit(1);
-    }
-    
-    uint64_t len = strtol(argv[1],NULL,10);
-  
-    std::list<std::uint64_t> array;
-    
-    for (std::uint64_t i=0; i<len; ++i) {
-        array.push_back(i*5);
-        // std::cout << i*5 << std::endl;
-    }
-    
-    clock_t time = 0;
-    
-    uint64_t i = 0;
-    
-    for (std::uint64_t x=0; x<5*len; x+=2){
-        // std::cout << "once "<< x << std::endl;
-        std::list<uint64_t> temp = array;
-        clock_t start = clock();
-        if( bs(x, std::move(temp)).has_value()){
-            i += 1;
-            // std::cout << "once "<< i << std::endl;
-        }
-        clock_t end = clock() - start;
-        time = time + end;
-    } 
-      
-    printf("Time: %fs, (idx checksum: %ld)\n",((double)time)/CLOCKS_PER_SEC,i);
-    
-    uint64_t time_ms = ((double)time)/CLOCKS_PER_SEC * 1000;
-    printf("@ %ld %ld\n",len,time_ms);
-    
-  }
