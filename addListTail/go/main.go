@@ -54,6 +54,6 @@ func main() {
 	elapsedNano := endNano - startNano
 
 	printHelper(newList)
-	fmt.Println(" time: ", elapsedNano,"ns")
+	fmt.Println(" time: ", elapsedNano," ns")
 }
 
