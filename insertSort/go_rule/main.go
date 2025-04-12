@@ -70,11 +70,11 @@ func main() {
 		return
 	}
 	// print random numbers list
-	fmt.Println("random numbers list:")
-	for _, number := range numbers {
-		fmt.Print(number, " ")
-	}
-	fmt.Println()
+	// fmt.Println("random numbers list:")
+	// for _, number := range numbers {
+	// 	fmt.Print(number, " ")
+	// }
+	// fmt.Println()
 
 	// TODO:fix the use of func "Less_eq" in the body of Insert
 	intLess := Ord[int]{
@@ -91,10 +91,10 @@ func main() {
 		newList = AddListTaila[int](numbers[i], newList)
 	}
 	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	resList := InsertSorta(intLess, newList)
+	newList = InsertSorta(intLess, newList)
 	endNano := time.Now().UnixNano()
 	elapsedNano := endNano - startNano
-	printHelper(resList)
+	// printHelper(resList)
 
 	fmt.Println("  time: ", elapsedNano," ns")
 }

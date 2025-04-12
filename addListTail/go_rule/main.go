@@ -53,7 +53,7 @@ func main() {
 	endNano := time.Now().UnixNano()
 	elapsedNano := endNano - startNano
 
-	printHelper(newList)
+	// printHelper(newList)
 	fmt.Println(" time: ", elapsedNano," ns")
 }
 

@@ -86,19 +86,18 @@ func main() {
 		},
 	}
 
+	newList := Lista[int](Nil[int]{})
 	if tar == 0 {
-		newList := Lista[int](Nil[int]{})
+		
 		startNano := time.Now().UnixNano() // 获取纳秒时间戳
 		for i:=0; i<len(numbers); i++ {
 			newList = InsertLista(intLess, numbers[i], newList)
 		}
 		endNano := time.Now().UnixNano()
 		elapsedNano := endNano - startNano
-		printHelper(newList)
-			
+
 		fmt.Println(" time: ", elapsedNano," ns")
 	} else {
-		newList := Lista[int](Nil[int]{})
 		for i:=0; i<len(numbers); i++ {
 			newList = InsertLista(intLess, numbers[i], newList)
 		}
@@ -106,12 +105,11 @@ func main() {
 		newList = InsertLista(intLess, tar, newList)
 		endNano := time.Now().UnixNano()
 		elapsedNano := endNano - startNano
-
-		printHelper(newList)
+		
 		fmt.Println(" time: ", elapsedNano," ns")
 
 	}
 
-
+	// printHelper(newList)
 }
 

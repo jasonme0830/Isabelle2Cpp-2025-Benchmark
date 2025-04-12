@@ -3,16 +3,15 @@ package main
 import (
 	"fmt"
 	"time"
+	"bufio"
 	"os"
 	"strconv"
 	. "isabelle/exported/HOL"
 	. "isabelle/exported/List"
-    "isabelle/exported/AddListHead" // 导入模块中的包
-	"isabelle/exported/SearchList"
-
+	. "isabelle/exported/AddListHead"
+	. "isabelle/exported/SearchList"
 )
 
-// 
 func printHelper[a any](list Lista[a]) {
     switch v := list.(type) {
     case Nil[a]:
@@ -30,14 +29,12 @@ func printHelper[a any](list Lista[a]) {
 func main() {
 	// 获取命令行参数
 	args := os.Args[1:]
- 
 	// 检查是否提供了参数
 	if len(args) < 1 {
 		fmt.Println("错误：请提供一个整数参数")
 		fmt.Println("用法：程序名 <整数>")
 		os.Exit(1)
 	}
- 
 	// 尝试转换参数为整数
 	num, err := strconv.Atoi(args[0])
 	tar, eoo := strconv.Atoi(args[1])
@@ -47,26 +44,59 @@ func main() {
 	}
 	fmt.Println("num: ", num, "   target: ", tar)
 
-	xs := Nil[int]{}
-	newList := AddListHead.AddListHeada[int](num, xs)
-	for i:=num-1; i>0; i--{
-		newList = AddListHead.AddListHeada[int](i, newList)
+	// 打开文件进行读取
+	file, err := os.Open("../ArandomNum/random_numbers.txt")
+	if err != nil {
+		fmt.Println("open file error:", err)
+		return
 	}
-	printHelper(newList)
+	defer file.Close()
+ 
+	var numbers []int
+	scanner := bufio.NewScanner(file)
+ 
+	// 从文件中读取指定数量的整数并存储到切片中
+	for i := 0; i < num && scanner.Scan(); i++ {
+		// 将每一行转换为整数
+		number, err := strconv.Atoi(scanner.Text())
+		if err != nil {
+			fmt.Println("无法将行转换为整数:", err)
+			continue
+		}
+		numbers = append(numbers, number)
+	}
+	// 检查扫描过程中是否有错误
+	if err := scanner.Err(); err != nil {
+		fmt.Println("read file error:", err)
+		return
+	}
+	// print random numbers list
+	// fmt.Println("random numbers list:")
+	// for _, number := range numbers {
+	// 	fmt.Print(number, " ")
+	// }
+	// fmt.Println()
 
-	// 实例化 Equal 结构体，例如用于比较整数
+	//实例化 Equal 结构体，例如用于比较整数
 	intEqual := Equal[int]{
 		Equala: func(a, b int) bool {
 			return a == b
 		},
 	}
 
+	newList := Lista[int](Nil[int]{})
+	for i:=len(numbers)-1; i>=0; i-- {
+		newList = AddListHeada(numbers[i], newList)
+	}
+	// printHelper(newList)
+
 	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	res := SearchList.SearchLista(intEqual, tar, newList)
+	res := SearchLista(intEqual, tar, newList)
 	endNano := time.Now().UnixNano()
 	elapsedNano := endNano - startNano
+	
+	fmt.Println("res: ", res, " time: ", elapsedNano," ns")
 
 	
-	fmt.Println("res: ", res, "  time: ", elapsedNano," ns")
 }
 

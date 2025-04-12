@@ -19,7 +19,7 @@ func isTip[a any](t Tree[a]) bool {
 // 打印函数，递归打印二叉树
 func printTree[a any](t Tree[a], indent string) {
 	if isTip(t) {
-		fmt.Print(indent + "Tip")
+		// fmt.Print(indent + "Tip")
 		return
 	}
  
@@ -35,7 +35,7 @@ func printTree[a any](t Tree[a], indent string) {
 	printTree(node.A, indent+"")
 	fmt.Print(")")
 	// 打印当前节点
-	fmt.Print(indent + fmt.Sprintf(" Node(%v) ", node.Aa))
+	fmt.Print(indent + fmt.Sprintf(" %v ", node.Aa))
 	// 打印右子树
 	fmt.Print("(")
 	printTree(node.Ab, indent+"")
@@ -88,11 +88,11 @@ func main() {
 		return
 	}
 	// print random numbers list
-	fmt.Println("random numbers list:")
-	for _, number := range numbers {
-		fmt.Print(number, " ")
-	}
-	fmt.Println()
+	// fmt.Println("random numbers list:")
+	// for _, number := range numbers {
+	// 	fmt.Print(number, " ")
+	// }
+	// fmt.Println()
 
 	// 实例化 Ord 结构体，例如用于比较整数
 	// TODO:fix the use of func "Less_eq" in the body of Inserttree
@@ -111,9 +111,14 @@ func main() {
 	for i:=1; i<len(numbers); i++{
 		newTree = Inserttree(intLess, numbers[i], newTree)
 	}
-	printTree(newTree, "")
 	endNano := time.Now().UnixNano()
 	elapsedNano := endNano - startNano
-	fmt.Println("\nres: ", "  time: ", elapsedNano," ns")
+
+	fmt.Println("go_rule  time: ", elapsedNano," ns")
+	// copyTree := Inserttree(intLess, tar, newTree)
+	// printTree(newTree, "")
+	// fmt.Println()
+	// printTree(copyTree, "")
+	// fmt.Println()
 }
 
