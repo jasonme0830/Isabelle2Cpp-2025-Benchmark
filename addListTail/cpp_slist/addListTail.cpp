@@ -26,12 +26,14 @@ int main(int argc, char **argv) {
 
     struct timespec start, end;
     timespec_get(&start, TIME_UTC);
-    newList = AddListTail(0, newList);
+    // newList = AddListTail(0, newList);
+    slist<int> copyList = newList;
+    // slist<int> copyList = slist<int>::sCons(0, newList);
     timespec_get(&end, TIME_UTC);
     long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     
     // 输出结果
-    std::cout <<"  Time: " << elapsed <<" ns"<<std::endl;
+    std::cout <<"Copy  Time: " << elapsed <<" ns"<<std::endl;
 
     return 0;
 }

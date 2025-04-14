@@ -23,6 +23,7 @@ func printHelper[a any](list Lista[a]) {
     }
 }
 
+
 func main() {
 	// 获取命令行参数
 	args := os.Args[1:]
@@ -49,11 +50,25 @@ func main() {
 	}
 
 	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	newList = AddListTail.AddListTaila[int](0, newList)
+	// newList = AddListTail.AddListTaila[int](0, newList)
+	// copyList := newList
+	copyList := Lista[int](Cons[int]{0, newList})
+	// copyList := AddListTail.AddListTaila[int](0, newList)
+	// copyList := AddListHeada(-1, newList)
 	endNano := time.Now().UnixNano()
 	elapsedNano := endNano - startNano
 
+	newList = AddListTail.AddListTaila[int](0, newList)
+
+	printHelper(newList)
+	printHelper(copyList)
+	fmt.Println("copy time: ", elapsedNano," ns")
+	// printHelper(copyList)
 	// printHelper(newList)
-	fmt.Println(" time: ", elapsedNano," ns")
+	
+	// 修改 copyList，验证 newList 是否未被改变
+	if c, ok := copyList.(Cons[int]); ok {
+		c.A = 42
+	}
 }
 

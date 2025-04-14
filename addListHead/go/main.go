@@ -2,8 +2,12 @@ package main
 
 import (
 	"fmt"
+	"time"
+	"os"
+	"strconv"
 	. "isabelle/exported/List"
-    "isabelle/exported/AddListHead" // 导入模块中的包
+    . "isabelle/exported/AddListHead" // 导入模块中的包
+    // "isabelle/exported/AddListTail"
 )
 
 // 
@@ -20,9 +24,58 @@ func printHelper[a any](list Lista[a]) {
     }
 }
 
+
 func main() {
-	xs := Nil[int]{};
-	newList := AddListHead.AddListHeada[int](9, xs)
-	printHelper(newList)
+	// 获取命令行参数
+	args := os.Args[1:]
+ 
+	// 检查是否提供了参数
+	if len(args) < 1 {
+		fmt.Println("错误：请提供一个整数参数")
+		fmt.Println("用法：程序名 <整数>")
+		os.Exit(1)
+	}
+ 
+	// 尝试转换参数为整数
+	num, err := strconv.Atoi(args[0])
+	if err != nil {
+		fmt.Printf("错误：无效的整数参数 '%s'\n", args[0])
+		os.Exit(1)
+	}
+	fmt.Println("num: ", num)
+
+    newList := Lista[int](Nil[int]{})
+	for i:=num-1; i>0; i--{
+		newList = AddListHeada[int](i, newList)
+	}
+
+	startNano := time.Now().UnixNano() // 获取纳秒时间戳
+	// newList = AddListTail.AddListTaila[int](0, newList)
+	// copyList := newList
+	// copyList := Lista[int](Cons[int]{0, newList})
+
+	// copyList := Lista[uint](Cons[int]{99, newList})
+	copyList := Lista[uint](Cons[int]{99, "newList"})
+	// copyList := AddListTail.AddListTaila[int](0, newList)
+	// copyList := AddListHeada(0, newList)
+	endNano := time.Now().UnixNano()
+	elapsedNano := endNano - startNano
+
+	// newList = AddListTail.AddListTaila[int](0, newList)
+    // newList = AddListHeada(-1, newList)
+    // 传递到函数中
+    // modifyList(newList)
+
+
+	// printHelper(newList)
+	// printHelper(copyList)
+	fmt.Println("copy time: ", elapsedNano," ns")
+	// printHelper(copyList)
+	// printHelper(newList)
+	
+	// 修改 copyList，验证 newList 是否未被改变
+	if c, ok := copyList.(Cons[int]); ok {
+		c.A = 42
+	}
 }
 

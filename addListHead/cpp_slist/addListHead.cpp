@@ -1,6 +1,17 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "addListHead.h"
+
+void print_list(const slist<int> &argu){
+    if(!argu.is_sNil()){
+      std::cout<<argu.as_sCons().p1()<<" ";
+      print_list(argu.as_sCons().p2());
+    }
+    if(argu.is_sNil()){
+        std::cout << "nil" << std::endl;
+    }
+}
 
 int main(int argc, char **argv) {
     if (argc != 3) {
@@ -11,28 +22,26 @@ int main(int argc, char **argv) {
     uint64_t tar = strtol(argv[2],NULL,10);
     std::cout << "len: " << len << "   tar: " << tar << std::endl;
 
-    std::ifstream inFile("../ArandomNum/random_numbers.txt");
-    if (!inFile) {
-        std::cerr << "open file error!" << std::endl;
-        return 1;
+    slist<int> newList = slist<int>::sNil();
+    for(int i=len-1; i>0; i--){
+        newList = AddListHead(i, newList);
     }
-
-    //read txt
-    std::vector<int> numbers;
-    int number;
-    // 从文件中读取整数并存储到vector中
-    for(int i=0; i<len; i++){
-        inFile >> number;
-        numbers.push_back(number);
-    }
-    inFile.close();
-
-    // 输出读取的整数
-    std::cout << "从文件中读取的整数:" << std::endl;
-    for (size_t i = 0; i < numbers.size(); ++i) {
-        std::cout << numbers[i] << " ";
-    }
+    // print_list(newList);
     std::cout << std::endl;
+
+    struct timespec start, end;
+    timespec_get(&start, TIME_UTC);
+    // slist<int> copyList = AddListHead(0, newList);
+    // slist<int> copyList = newList;
+    slist<int> copyList = slist<int>::sCons(0, newList);
+    // slist<int> copyList = std::move(newList);
+    timespec_get(&end, TIME_UTC);
+    long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
+    
+    // 输出结果
+    std::cout <<"Cons  Time: " << elapsed <<" ns"<<std::endl;
+    print_list(copyList);
+
 
     return 0;
 }
