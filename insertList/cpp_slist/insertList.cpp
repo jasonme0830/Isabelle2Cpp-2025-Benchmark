@@ -8,6 +8,9 @@ void print_list(const slist<int> &argu){
       std::cout<<argu.as_sCons().p1()<<" ";
       print_list(argu.as_sCons().p2());
     }
+    if(argu.is_sNil()){
+        std::cout << "nil" << std::endl;
+    }
 }
 
 int main(int argc, char **argv) {
@@ -48,7 +51,8 @@ int main(int argc, char **argv) {
         struct timespec start, end;
         timespec_get(&start, TIME_UTC);
         for(int i=0; i<len; i++){
-            newList = Insert(numbers[i], newList);
+            // newList = Insert(numbers[i], newList);
+            newList = Insert(numbers[i], std::move(newList));
         }
         timespec_get(&end, TIME_UTC);
         long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
@@ -57,7 +61,7 @@ int main(int argc, char **argv) {
         std::cout <<"  Time: " << elapsed <<" ns"<<std::endl;
     }else{
         for(int i=0; i<len; i++){
-            newList = Insert(numbers[i], newList);
+            newList = Insert(numbers[i], std::move(newList));
         }
         struct timespec start, end;
         timespec_get(&start, TIME_UTC);
@@ -70,7 +74,6 @@ int main(int argc, char **argv) {
     }
 
     // print_list(newList);
-    // std::cout << std::endl;
 
     return 0;
 }

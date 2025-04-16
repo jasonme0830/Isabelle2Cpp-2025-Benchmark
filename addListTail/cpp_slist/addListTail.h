@@ -31,9 +31,10 @@ class slist {
         slist<T1> p2() const { return *p2_; }
 
 
-        _sCons(const T1 &p1, const slist<T1> &p2 )
+        // 新增的构造函数，用于浅拷贝p2
+        _sCons(const T1& p1, std::shared_ptr<slist<T1>> p2)
             :p1_(p1)
-            ,p2_(std::make_shared<slist<T1>>(p2))
+            ,p2_(std::move(p2))
         {}
         _sCons(const _sCons& other)
             :p1_(other.p1_)
@@ -85,7 +86,7 @@ class slist {
         value_ = _sNil();
     }
     //value构造函数
-    slist(std::variant<_sNil, _sCons> value) : value_(value) {}
+    slist(std::variant<_sNil, _sCons> value) : value_(std::move(value)) {}
     //深拷贝构造函数
     slist(const slist<T1>& other) { 
         if(std::holds_alternative<_sNil>(other.value_)){ 
@@ -112,8 +113,35 @@ class slist {
     static slist<T1> sNil() {
         return slist<T1> ( _sNil (  ) );
     }
-    static slist<T1> sCons(const T1 &p1, const slist<T1> &p2) {
-        return slist<T1> ( _sCons ( p1, p2 ) );
+
+    // 浅拷贝版本的sCons
+    // static slist<T1> sCons(const T1 &p1, const slist<T1> &p2) {
+    //     if(std::holds_alternative<_sNil>(p2.value_)) {
+    //         // 如果p2是nil，直接创建新节点指向p2的共享指针
+    //         return slist<T1>(_sCons(p1, std::make_shared<slist<T1>>(p2)));
+    //     } else {
+    //         // 对于非nil情况
+    //         const _sCons& p2_cons = std::get<_sCons>(p2.value_);
+    //         std::shared_ptr nil_ptr = std::make_shared<slist<T1>>(_sNil());
+    //         std::shared_ptr first_ptr = std::make_shared<slist<T1>>(_sCons(p2_cons.p1_, nil_ptr));
+    //         _sCons& first = std::get<_sCons>((*first_ptr).value_);
+    //         first.p2_ = p2_cons.p2_;
+    //         return slist<T1>(_sCons(p1, first_ptr));
+    //     }
+    // }
+    static slist<T1> sCons(T1 p1, slist<T1> p2) {
+        if(std::holds_alternative<_sNil>(p2.value_)) {
+            // 如果p2是nil，直接创建新节点指向p2的共享指针
+            return slist<T1>(_sCons(p1, std::make_shared<slist<T1>>(p2)));
+        } else {
+            // 对于非nil情况
+            const _sCons& p2_cons = std::get<_sCons>(p2.value_);
+            std::shared_ptr nil_ptr = std::make_shared<slist<T1>>(_sNil());
+            std::shared_ptr first_ptr = std::make_shared<slist<T1>>(_sCons(p2_cons.p1_, nil_ptr));
+            _sCons& first = std::get<_sCons>((*first_ptr).value_);
+            first.p2_ = p2_cons.p2_;
+            return slist<T1>(_sCons(p1, first_ptr));
+        }
     }
 
     bool is_sNil() const { return std::holds_alternative<_sNil>(value_); }

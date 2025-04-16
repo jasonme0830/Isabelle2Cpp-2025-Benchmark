@@ -32,8 +32,8 @@ class slist {
 
 
         // 新增的构造函数，用于浅拷贝p2
-        _sCons(const T1& p1, std::shared_ptr<slist<T1>> p2)
-            :p1_(p1)
+        _sCons(T1 p1, std::shared_ptr<slist<T1>> p2)
+            :p1_(std::move(p1))
             ,p2_(std::move(p2))
         {}
         _sCons(const _sCons& other)
@@ -113,44 +113,28 @@ class slist {
     static slist<T1> sNil() {
         return slist<T1> ( _sNil (  ) );
     }
-    // static slist<T1> sCons(const T1 &p1, const slist<T1> &p2) {
-    //     // return slist<T1> ( _sCons ( p1, p2 ) );
-    // }
 
     // 浅拷贝版本的sCons
-    static slist<T1> sCons(const T1 &p1, const slist<T1> &p2) {
-        // struct timespec start, temp1, temp2, end;
-        // timespec_get(&start, TIME_UTC);
-        bool res = std::holds_alternative<_sNil>(p2.value_);
-        // timespec_get(&temp1, TIME_UTC);
-        if(res) {
-            // 如果p2是nil，直接创建新节点指向p2的共享指针
-            // std::cout << " nil" << std::endl;
-            return slist<T1>(_sCons(p1, std::make_shared<slist<T1>>(p2)));
-        } else {
-            // 对于非nil情况
+    static slist<T1> sCons(T1 p1, slist<T1> p2) {
+        //声明所有指针变量
+        std::shared_ptr p2_ptr = std::make_shared<slist<T1>>(_sNil());
+
+        //判断输入的指针参数p2的类型
+        if(std::holds_alternative<_sCons>(p2.value_)){
             const _sCons& p2_cons = std::get<_sCons>(p2.value_);
-            // timespec_get(&temp2, TIME_UTC);
-            std::shared_ptr nil_ptr = std::make_shared<slist<T1>>(_sNil());
-            std::shared_ptr first_ptr = std::make_shared<slist<T1>>(_sCons(p2_cons.p1_, nil_ptr));
-            _sCons& first = std::get<_sCons>((*first_ptr).value_);
+            //新建一个空的头节点
+            p2_ptr = std::make_shared<slist<T1>>(_sCons(
+                p2_cons.p1_
+                , std::make_shared<slist<T1>>(_sNil())
+            ));
+            //头节点重新链接
+            _sCons& first = std::get<_sCons>((*p2_ptr).value_);
             first.p2_ = p2_cons.p2_;
-            // timespec_get(&end, TIME_UTC);
-
-            // long long elapsed1 = (temp1.tv_sec - start.tv_sec) * 1000000000LL + (temp1.tv_nsec - start.tv_nsec);
-            // long long elapsed2 = (temp2.tv_sec - temp1.tv_sec) * 1000000000LL + (temp2.tv_nsec - temp1.tv_nsec);
-            // long long elapsed3 = (end.tv_sec - temp2.tv_sec) * 1000000000LL + (end.tv_nsec - temp2.tv_nsec);
-            // std::cout << elapsed1 << " " << elapsed2 << " " << elapsed3 << std::endl;
-
-            return slist<T1>(_sCons(p1, first_ptr));
         }
+
+        //所有指针都指向完成后，构建头部节点
+        return slist<T1>(_sCons(p1, p2_ptr));
     }
-
-    // static slist<T1> sCons(const T1 &p1, slist<T1>&& p2) {
-    //     // 如果是临时对象（右值），直接移动
-    //     return slist<T1>(_sCons(p1, std::make_shared<slist<T1>>(std::move(p2))));
-    // }
-
 
     bool is_sNil() const { return std::holds_alternative<_sNil>(value_); }
     bool is_sCons() const { return std::holds_alternative<_sCons>(value_); }
@@ -255,10 +239,10 @@ class slist {
 
 
 template<typename T1>
-slist<T1> AddListHead(const T1 &arg1, const slist<T1> &arg2) {
+slist<T1> AddListHead(T1 arg1, slist<T1> arg2) {
     // AddListHead a xs = sCons a  xs
-    auto a = arg1;
-    auto xs = arg2;
+    auto a = std::move(arg1);
+    auto xs = std::move(arg2);
     auto temp0 = slist<T1>::sCons(
         std::move(a),
         std::move(xs)

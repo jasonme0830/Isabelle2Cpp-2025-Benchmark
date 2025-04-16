@@ -24,23 +24,24 @@ int main(int argc, char **argv) {
 
     slist<int> newList = slist<int>::sNil();
     for(int i=len-1; i>0; i--){
-        newList = AddListHead(i, newList);
+        // newList = AddListHead(i, newList);
+        newList = slist<int>::sCons(i, std::move(newList));
     }
     // print_list(newList);
-    std::cout << std::endl;
 
     struct timespec start, end;
     timespec_get(&start, TIME_UTC);
     // slist<int> copyList = AddListHead(0, newList);
+    slist<int> copyList = AddListHead(0, std::move(newList));
     // slist<int> copyList = newList;
-    slist<int> copyList = slist<int>::sCons(0, newList);
+    // slist<int> copyList = slist<int>::sCons(0, std::move(newList));
     // slist<int> copyList = std::move(newList);
     timespec_get(&end, TIME_UTC);
     long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     
     // 输出结果
     std::cout <<"Cons  Time: " << elapsed <<" ns"<<std::endl;
-    print_list(copyList);
+    // print_list(copyList);
 
 
     return 0;

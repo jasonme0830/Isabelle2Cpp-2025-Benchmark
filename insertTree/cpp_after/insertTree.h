@@ -123,7 +123,8 @@ class tree {
     static tree<T1> Tip() {
         return tree<T1> ( _Tip (  ) );
     }
-    static tree<T1> Node(const tree<T1> &p1, const T1 &p2, const tree<T1> &p3) {
+    static tree<T1> Node(tree<T1> p1, T1 p2, tree<T1> p3) {
+        if()
         return tree<T1> ( _Node ( p1, p2, p3 ) );
     }
 
