@@ -27,13 +27,14 @@ int main(int argc, char **argv) {
         // newList = AddListHead(i, newList);
         newList = slist<int>::sCons(i, std::move(newList));
     }
-    // print_list(newList);
+    print_list(newList);
 
     struct timespec start, end;
     timespec_get(&start, TIME_UTC);
     // slist<int> copyList = AddListHead(0, newList);
-    slist<int> copyList = AddListHead(0, std::move(newList));
-    // slist<int> copyList = newList;
+    // slist<int> copyList = AddListHead(0, std::move(newList));
+    slist<int> copyList = newList;
+    // slist<int> copyList = slist<int>::sCons(0, newList);
     // slist<int> copyList = slist<int>::sCons(0, std::move(newList));
     // slist<int> copyList = std::move(newList);
     timespec_get(&end, TIME_UTC);
@@ -41,7 +42,9 @@ int main(int argc, char **argv) {
     
     // 输出结果
     std::cout <<"Cons  Time: " << elapsed <<" ns"<<std::endl;
-    // print_list(copyList);
+    // newList = slist<int>::sNil();
+    // print_list(newList);
+    print_list(copyList);
 
 
     return 0;

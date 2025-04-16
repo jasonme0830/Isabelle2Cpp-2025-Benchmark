@@ -32,10 +32,10 @@ class tree {
         tree<T1> p3() const { return *p3_; }
 
 
-        _Node(const tree<T1> &p1, const T1 &p2, const tree<T1> &p3 )
-            :p1_(std::make_shared<tree<T1>>(p1))
-            ,p2_(p2)
-            ,p3_(std::make_shared<tree<T1>>(p3))
+        _Node(std::shared_ptr<tree<T1>> p1, T1 p2, std::shared_ptr<tree<T1>> p3 )
+            :p1_(std::move(p1))
+            ,p2_(std::move(p2))
+            ,p3_(std::move(p3))
         {}
         _Node(const _Node& other)
             :p1_(std::make_shared<tree<T1>>(*other.p1_))
@@ -92,7 +92,7 @@ class tree {
         value_ = _Tip();
     }
     //value构造函数
-    tree(std::variant<_Tip, _Node> value) : value_(value) {}
+    tree(std::variant<_Tip, _Node> value) : value_(std::move(value)) {}
     //深拷贝构造函数
     tree(const tree<T1>& other) { 
         if(std::holds_alternative<_Tip>(other.value_)){ 
@@ -124,8 +124,11 @@ class tree {
         return tree<T1> ( _Tip (  ) );
     }
     static tree<T1> Node(tree<T1> p1, T1 p2, tree<T1> p3) {
-        if()
-        return tree<T1> ( _Node ( p1, p2, p3 ) );
+        return tree<T1>(_Node(            
+            std::make_shared<tree<T1>>(std::move(p1))
+            , std::move(p2)
+            , std::make_shared<tree<T1>>(std::move(p3)) 
+        ));
     }
 
     bool is_Tip() const { return std::holds_alternative<_Tip>(value_); }

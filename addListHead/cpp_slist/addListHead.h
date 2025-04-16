@@ -115,25 +115,30 @@ class slist {
     }
 
     // 浅拷贝版本的sCons
+    // static slist<T1> sCons(T1 p1, slist<T1> p2) {
+    //     //声明所有指针变量
+    //     std::shared_ptr p2_ptr = std::make_shared<slist<T1>>(_sNil());
+
+    //     //判断输入的指针参数p2的类型
+    //     if(std::holds_alternative<_sCons>(p2.value_)){
+    //         const _sCons& p2_cons = std::get<_sCons>(p2.value_);
+    //         std::shared_ptr temp2_ptr = std::make_shared<slist<T1>>(_sNil());
+    //         //新建一个空的头节点
+    //         p2_ptr = std::make_shared<slist<T1>>(_sCons(p2_cons.p1_, temp2_ptr));
+    //         //头节点重新链接
+    //         _sCons& first = std::get<_sCons>((*p2_ptr).value_);
+    //         first.p2_ = p2_cons.p2_;
+    //     }
+
+    //     //所有指针都指向完成后，构建头部节点
+    //     return slist<T1>(_sCons(p1, p2_ptr));
+    // }
+    
     static slist<T1> sCons(T1 p1, slist<T1> p2) {
-        //声明所有指针变量
-        std::shared_ptr p2_ptr = std::make_shared<slist<T1>>(_sNil());
-
-        //判断输入的指针参数p2的类型
-        if(std::holds_alternative<_sCons>(p2.value_)){
-            const _sCons& p2_cons = std::get<_sCons>(p2.value_);
-            //新建一个空的头节点
-            p2_ptr = std::make_shared<slist<T1>>(_sCons(
-                p2_cons.p1_
-                , std::make_shared<slist<T1>>(_sNil())
-            ));
-            //头节点重新链接
-            _sCons& first = std::get<_sCons>((*p2_ptr).value_);
-            first.p2_ = p2_cons.p2_;
-        }
-
-        //所有指针都指向完成后，构建头部节点
-        return slist<T1>(_sCons(p1, p2_ptr));
+        return slist<T1>(_sCons(
+            p1
+            , std::make_shared<slist<T1>>(std::move(p2))
+        ));
     }
 
     bool is_sNil() const { return std::holds_alternative<_sNil>(value_); }

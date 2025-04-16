@@ -129,7 +129,7 @@ class slist {
     //         return slist<T1>(_sCons(p1, first_ptr));
     //     }
     // }
-    static slist<T1> sCons(T1 p1, slist<T1> p2) {
+    static slist<T1> sCons(const T1& p1, const slist<T1>& p2) {
         if(std::holds_alternative<_sNil>(p2.value_)) {
             // 如果p2是nil，直接创建新节点指向p2的共享指针
             return slist<T1>(_sCons(p1, std::make_shared<slist<T1>>(p2)));
