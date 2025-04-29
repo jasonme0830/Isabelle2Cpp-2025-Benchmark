@@ -1,32 +1,37 @@
 package DelTree
 
 import (
-  // "isabelle/exported/HOL"
   . "isabelle/exported/Tree"
 )
 
 
-func Rightest[a any] (x0 Tree[a]) a {
+func DelRightest[a any] (x0 Tree[a]) Tree[a] {
   {
     q, m := x0.(Node[a]);
     if m {
-      _, xa, c := Node_dest(q);
+      lefta, _, c := Node_dest(q);
       if c == (Tree[a](Tip[a]{})) {
-        return xa;
+        return lefta;
       }
     }
   };
   {
     q, m := x0.(Node[a]);
     if m {
-      _, _, p := Node_dest(q);
+      lefta, xa, p := Node_dest(q);
       q, m := p.(Node[a]);
       if m {
         vc, vaa, vba := Node_dest(q);
-        return Rightest[a](Tree[a](Node[a]{vc, vaa, vba}));
+        return Tree[a](Node[a]{lefta, xa, DelRightest[a](Tree[a](Node[a]{vc, vaa, vba}))});
       }
+    }
+  };
+  {
+    if x0 == (Tree[a](Tip[a]{})) {
+      return Tree[a](Tip[a]{});
     }
   };
   panic("match failed");
 }
+
 

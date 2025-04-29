@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 	"time"
-	// "bufio"
 	"os"
 	"strconv"
-	// . "isabelle/exported/HOL"
 	. "isabelle/exported/Tree"
-	. "isabelle/exported/Orderings"
+    . "isabelle/exported/Orderings"
     . "isabelle/exported/InsertTree"
 	. "isabelle/exported/DelTree" 
 )
@@ -90,17 +88,27 @@ func main() {
 	for i:=1; i<len(numbers); i++{
 		newTree = Inserttree(intLess, numbers[i], newTree)
 	}
-	printTree(newTree, "")
-	fmt.Println()
+	// printTree(newTree, "")
+	// fmt.Println()
 
-	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	// for i:=0; i<len(numbers); i++{
-		res := Rightest(newTree)
-	// }
-	endNano := time.Now().UnixNano()
+	// 单次运行结果差异太多，多次运行取平均值
+	const runs = 100
+	var totalTime int64
+	var copyTree Tree[int]
+	
+	for i:=0; i<runs; i++{
+		start := time.Now()
+		copyTree = DelRightest(newTree)
+		totalTime += time.Since(start).Nanoseconds()
+	}
+	
 
-	elapsedNano := endNano - startNano
+	elapsedNano := totalTime / runs
 
-	fmt.Println("res: ", res, "   time: ", elapsedNano," ns")
+	_ = copyTree
+	// printTree(copyTree, "")
+	// fmt.Println()
+
+	fmt.Println(" time: ", elapsedNano," ns")
 }
 
