@@ -36,11 +36,7 @@ int main(int argc, char **argv) {
 
     struct timespec start, end;
     slist<int> copyList;
-    if(tar == 1){
-        timespec_get(&start, TIME_UTC);
-        copyList = Reverse(std::move(newList));
-        timespec_get(&end, TIME_UTC);
-    }else if(tar == 0){
+    if(tar == 0){
         timespec_get(&start, TIME_UTC);
         copyList = Reverse(newList);
         timespec_get(&end, TIME_UTC);

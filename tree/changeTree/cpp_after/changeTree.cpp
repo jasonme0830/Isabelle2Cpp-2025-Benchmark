@@ -64,11 +64,11 @@ int main(int argc, char **argv) {
 
     if(tar == 0){
         timespec_get(&start, TIME_UTC);
-        res = changetree(numbers[0], int(tar), copy_tree);
+        res = changetree(numbers[len/2], int(tar), copy_tree);
         timespec_get(&end, TIME_UTC);
     }else if(tar == 1){
         timespec_get(&start, TIME_UTC);
-        res = changetree(numbers[0], int(tar), std::move(copy_tree));
+        res = changetree(numbers[len/2], int(tar), std::move(copy_tree));
         timespec_get(&end, TIME_UTC);
     }else{
         timespec_get(&start, TIME_UTC);

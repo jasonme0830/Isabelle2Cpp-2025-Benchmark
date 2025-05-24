@@ -68,7 +68,8 @@ int main(int argc, char **argv) {
         timespec_get(&end, TIME_UTC);
     }else if(tar == 1){
         timespec_get(&start, TIME_UTC);
-        res = deltree(numbers[2], std::move(copy_tree));
+        res = deltree(numbers[len-2], copy_tree);
+        // res = deltree(numbers[len-2], std::move(copy_tree));
         timespec_get(&end, TIME_UTC);
     }else{
         timespec_get(&start, TIME_UTC);

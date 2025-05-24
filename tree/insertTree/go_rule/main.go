@@ -8,7 +8,7 @@ import (
 	"strconv"
 	. "isabelle/exported/Orderings"
     . "isabelle/exported/InsertTree" // 导入模块中的包
-
+	. "isabelle/exported/Tree"
 )
 
 // 定义一个辅助函数，用于判断一个 Tree 是否是 Tip 类型

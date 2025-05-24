@@ -102,8 +102,8 @@ func main() {
 		totalTime += time.Since(start).Nanoseconds()
 	}
 	
-
 	elapsedNano := totalTime / runs
+	// elapsedNano := totalTime
 
 	_ = copyTree
 	// printTree(copyTree, "")

@@ -66,16 +66,16 @@ int main(int argc, char **argv) {
         timespec_get(&end, TIME_UTC);
     }else{
         timespec_get(&start, TIME_UTC);
-        // res = rightest( copy_tree);
+        res = rightest( copy_tree);
         auto temp = tree<int>::Tip();
-        auto second = temp;
+        // auto second = temp;
         timespec_get(&end, TIME_UTC);
     }
 
     long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     
     // 输出结果
-    // std::cout <<"res: " << res;
+    std::cout <<"res: " << res;
     std::cout << "   Time: " << elapsed <<" ns"<<std::endl;
     return 0;
 }

@@ -23,20 +23,22 @@ int main(int argc, char **argv) {
     std::cout << "len: " << len << "   tar: " << tar << std::endl;
 
     slist<int> newList = slist<int>::sNil();
+    slist<int> copyList;
     for(int i=len-1; i>0; i--){
         // newList = AddListTail(i, newList);
-        newList = slist<int>::sCons(i, std::move(newList));
+        // newList = slist<int>::sCons(i, std::move(newList));
+        newList = slist<int>::sCons(i, newList);
     }
     // print_list(newList);
 
     struct timespec start, end;
     if(tar == 0){
         timespec_get(&start, TIME_UTC);
-        slist<int> copyList = AddListTail(0, newList);
+        copyList = AddListTail(0, newList);
         timespec_get(&end, TIME_UTC);
     }else{
         timespec_get(&start, TIME_UTC);
-        slist<int> copyList = AddListTail(0, std::move(newList));
+        copyList = AddListTail(int(tar), newList);
         timespec_get(&end, TIME_UTC);
     }
 

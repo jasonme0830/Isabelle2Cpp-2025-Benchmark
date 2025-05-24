@@ -120,7 +120,7 @@ func main() {
 
 	startNano := time.Now().UnixNano() // 获取纳秒时间戳
 	// for i:=0; i<len(numbers); i++{
-		newTree = Changetree(intEqual, intLess, numbers[0], tar, newTree)
+		newTree = Changetree(intEqual, intLess, numbers[num/2], tar, newTree)
 	// }
 	endNano := time.Now().UnixNano()
 

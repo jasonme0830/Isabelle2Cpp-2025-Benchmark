@@ -14,31 +14,38 @@ void print_list(const slist<int> &argu){
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
+    if (argc != 3) {
         std::cout << "usage: ./main <size> <target>\n"; 
         exit(1);
     }
     uint64_t len = strtol(argv[1],NULL,10);
-    std::cout << "len: " << len << std::endl;
+    uint64_t tar = strtol(argv[2],NULL,10);
+    std::cout << "len: " << len << "   tar: " << tar << std::endl;
 
     slist<int> newList = slist<int>::sNil();
     for(int i=len-1; i>0; i--){
         // newList = AddListHead(i, newList);
-        newList = slist<int>::sCons(i, std::move(newList));
+        // newList = slist<int>::sCons(i, std::move(newList));
+        newList = slist<int>::sCons(i, newList);
     }
     // print_list(newList);
 
+    slist<int> copyList;
     struct timespec start, end;
-    timespec_get(&start, TIME_UTC);
-        // slist<int> copyList = newList;
-        slist<int> copyList = std::move(newList);
-    timespec_get(&end, TIME_UTC);
+    if(tar == 0){
+        timespec_get(&start, TIME_UTC);
+            copyList = newList;
+        timespec_get(&end, TIME_UTC);
+    }else{
+        timespec_get(&start, TIME_UTC);
+            copyList = std::move(newList);
+        timespec_get(&end, TIME_UTC);
+    }
     long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     
     // 输出结果
     std::cout <<"Cons  Time: " << elapsed <<" ns"<<std::endl;
     // newList = slist<int>::sNil();
-    // print_list(newList);
     // print_list(copyList);
 
 

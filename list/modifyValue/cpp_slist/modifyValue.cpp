@@ -28,19 +28,16 @@ int main(int argc, char **argv) {
 
     // 输出读取的整数
     // std::cout << "从文件中读取的整数:" << std::endl;
-    for (size_t i = 0; i < len; ++i) {
+    for (size_t i = 1; i <= len; ++i) {
         newList = slist<int>::sCons(i, std::move(newList));
         // std::cout << numbers[i] << " ";
     }
+    // print_list(newList);
     // std::cout << std::endl;
 
     struct timespec start, end;
     slist<int> copy_list;
-    if(tar == 1){
-        timespec_get(&start, TIME_UTC);
-        copy_list = ModifyValue(1, 0, std::move(newList));
-        timespec_get(&end, TIME_UTC);
-    }else if(tar == 0){
+    if(tar == 0){
         timespec_get(&start, TIME_UTC);
         copy_list = ModifyValue(1, 0, newList);
         timespec_get(&end, TIME_UTC);

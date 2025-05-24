@@ -90,16 +90,21 @@ func main() {
 	for i:=1; i<len(numbers); i++{
 		newTree = Inserttree(intLess, numbers[i], newTree)
 	}
-	printTree(newTree, "")
-	fmt.Println()
+	// printTree(newTree, "")
+	// fmt.Println()
 
-	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	// for i:=0; i<len(numbers); i++{
-		res := Rightest(newTree)
-	// }
-	endNano := time.Now().UnixNano()
-
-	elapsedNano := endNano - startNano
+	// 单次运行结果差异太多，多次运行取平均值
+	const runs = 100
+	var totalTime int64
+	var res int
+	
+	for i:=0; i<runs; i++{
+		start := time.Now()
+		res = Rightest(newTree)
+		totalTime += time.Since(start).Nanoseconds()
+	}
+	
+	elapsedNano := totalTime / runs
 
 	fmt.Println("res: ", res, "   time: ", elapsedNano," ns")
 }

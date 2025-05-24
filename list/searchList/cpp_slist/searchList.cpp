@@ -29,18 +29,15 @@ int main(int argc, char **argv) {
     // 输出读取的整数
     // std::cout << "从文件中读取的整数:" << std::endl;
     for (size_t i = 0; i < len; ++i) {
-        newList = slist<int>::sCons(i, std::move(newList));
+        newList = slist<int>::sCons(i, newList);
         // std::cout << numbers[i] << " ";
     }
+    // print_list(newList);
     // std::cout << std::endl;
 
     struct timespec start, end;
     bool res;
-    if(tar == -1){
-        timespec_get(&start, TIME_UTC);
-        res = SearchList(0, std::move(newList));
-        timespec_get(&end, TIME_UTC);
-    }else if(tar == 0){
+    if(tar == 0){
         timespec_get(&start, TIME_UTC);
         res = SearchList(0, newList);
         timespec_get(&end, TIME_UTC);

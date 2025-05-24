@@ -62,14 +62,6 @@ int main(int argc, char **argv) {
         }
         timespec_get(&end, TIME_UTC);
         elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
-    }else if(tar == 1){
-        struct timespec start, end;
-        timespec_get(&start, TIME_UTC);
-        for (size_t i = 0; i < numbers.size(); ++i) {
-            copy_tree = inserttree(numbers[i], std::move(copy_tree));
-        }
-        timespec_get(&end, TIME_UTC);
-        elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     }else{
         for (size_t i = 0; i < numbers.size(); ++i) {
             // copy_tree = inserttree(numbers[i], copy_tree);

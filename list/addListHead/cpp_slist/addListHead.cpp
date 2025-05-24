@@ -24,7 +24,8 @@ int main(int argc, char **argv) {
     slist<int> newList = slist<int>::sNil();
     for(int i=len-1; i>0; i--){
         // newList = AddListHead(i, newList);
-        newList = slist<int>::sCons(i, std::move(newList));
+        // newList = slist<int>::sCons(i, std::move(newList));
+        newList = slist<int>::sCons(i, newList);
     }
     // print_list(newList);
 

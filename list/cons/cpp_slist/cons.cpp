@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
 
     struct timespec start, end;
     timespec_get(&start, TIME_UTC);
-        // slist<int> copyList = slist<int>::sCons(0, newList);
-        slist<int> copyList = slist<int>::sCons(0, std::move(newList));
+        slist<int> copyList = slist<int>::sCons(0, newList);
+        // slist<int> copyList = slist<int>::sCons(0, std::move(newList));
     timespec_get(&end, TIME_UTC);
     long long elapsed = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
     

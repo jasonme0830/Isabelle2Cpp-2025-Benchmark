@@ -21,7 +21,7 @@ func isTip[a any](t Tree[a]) bool {
 // 打印函数，递归打印二叉树
 func printTree[a any](t Tree[a], indent string) {
 	if isTip(t) {
-		fmt.Print(indent + "Tip")
+		fmt.Print(indent + " ")
 		return
 	}
  
@@ -108,8 +108,8 @@ func main() {
 	for i:=1; i<len(numbers); i++{
 		newTree = Inserttree(intLess, numbers[i], newTree)
 	}
-	printTree(newTree, "")
-	fmt.Println()
+	// printTree(newTree, "")
+	// fmt.Println()
 
 	//实例化 Equal 结构体，例如用于比较整数
 	intEqual := Equal[int]{
@@ -120,15 +120,14 @@ func main() {
 	copyTree := newTree
 
 	startNano := time.Now().UnixNano() // 获取纳秒时间戳
-	// for i:=0; i<len(numbers); i++{
-		copyTree = Deltree(intEqual, intLess, numbers[2], newTree)
-	// }
+		// copyTree = Deltree(intEqual, intLess, numbers[2], newTree)
+		copyTree = Deltree(intEqual, intLess, numbers[num-2], newTree)
 	endNano := time.Now().UnixNano()
 
 	elapsedNano := endNano - startNano
 	_ = copyTree
-	printTree(copyTree, "")
-	fmt.Println()
+	// printTree(copyTree, "")
+	// fmt.Println()
 
 	fmt.Println(" time: ", elapsedNano," ns")
 }
