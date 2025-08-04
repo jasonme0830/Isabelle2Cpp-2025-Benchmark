@@ -24,9 +24,10 @@ fun main () = let
 
   val start = Time.now ()
   val sum = iter 0 0
-  val duration = Time.toMilliseconds (Time.- (Time.now(), start))
+  (* val duration = Time.toMilliseconds (Time.- (Time.now(), start)) *)
+  val duration = Time.toMicroseconds (Time.- (Time.now(), start))
   
-  val _ = println ("Time (ms): " ^ IntInf.toString duration)
+  val _ = println ("Time (us): " ^ IntInf.toString duration)
   val _ = println ("checksum " ^ Int.toString sum)
   
   val _ = println ("@ SML " ^ Int.toString len ^ " " ^ IntInf.toString duration)

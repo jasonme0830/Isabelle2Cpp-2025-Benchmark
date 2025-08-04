@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     
   printf("Time: %fs, (idx checksum: %ld)\n",((double)time)/CLOCKS_PER_SEC,i);
   
-  uint64_t time_ms = ((double)time)/CLOCKS_PER_SEC * 1000;
-  printf("@ %ld %ld\n",len,time_ms);
+  uint64_t time_us = ((double)time)/CLOCKS_PER_SEC * 1000000;
+  printf("@ %ld %ld\n",len,time_us);
   
 }
